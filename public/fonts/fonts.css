@@ -1,0 +1,83 @@
+/* =============================================================================
+   Intrakore Design System — fonts.css
+   Load via hooks.py: app_include_css = ["/assets/intrakore/css/fonts.css"]
+
+   Font files live at: /assets/intrakore/fonts/
+   Deploy once — only change if font files are updated.
+   ============================================================================= */
+
+/* ── Avenir ─────────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/assets/intrakore/fonts/Avenir_Book.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/assets/intrakore/fonts/Avenir-Roman.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/assets/intrakore/fonts/Avenir-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/assets/intrakore/fonts/Avenir_Heavy.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Avenir';
+  src: url('/assets/intrakore/fonts/Avenir_Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── ITC Avant Garde Gothic Pro ─────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'ITC Avant Garde Gothic Pro';
+  src: url('/assets/intrakore/fonts/ITC_Avant_Garde_Gothic_CE_Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ITC Avant Garde Gothic Pro';
+  src: url('/assets/intrakore/fonts/ITC_Avant_Garde_Gothic_Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ITC Avant Garde Gothic Pro';
+  src: url('/assets/intrakore/fonts/ITC_Avant_Garde_Gothic_CE_Demi.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ITC Avant Garde Gothic Pro';
+  src: url('/assets/intrakore/fonts/ITC_Avant_Garde_Gothic_Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

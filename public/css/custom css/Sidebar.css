@@ -1,0 +1,389 @@
+/* =============================================================================
+   Intrakore Design System — Sidebar.css
+   Covers: Sidebar.vue · SidebarHeader.vue · SidebarItem.vue · SidebarSection.vue
+   Depends on: custom.css (tokens), typography.css (type scale)
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   SIDEBAR — Root container
+   ----------------------------------------------------------------------------- */
+
+.ik-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 1px solid var(--outline-blueprint-1);
+  background-color: var(--surface-menu-bar);
+  padding: 0.5rem;
+  transition: width 300ms ease-in-out;
+}
+
+/* Expanded — default */
+.ik-sidebar--expanded {
+  width: 15rem; /* w-60 */
+}
+
+/* Collapsed */
+.ik-sidebar--collapsed {
+  width: 3rem; /* w-12 */
+}
+
+/* Footer slot area */
+.ik-sidebar__footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Collapse toggle icon */
+.ik-sidebar__collapse-icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--ink-blueprint-1);
+  transition: transform 300ms ease-in-out;
+}
+
+.ik-sidebar__collapse-icon--rotated {
+  transform: rotate(180deg);
+}
+
+/* -----------------------------------------------------------------------------
+   SIDEBAR HEADER
+   ----------------------------------------------------------------------------- */
+
+.ik-sidebar-header__trigger {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  border-radius: 0.375rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  width: 14rem;
+  transition: background-color 300ms ease-in-out, padding 300ms ease-in-out;
+}
+
+/* Collapsed state — icon only */
+.ik-sidebar-header__trigger--collapsed {
+  width: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Expanded — default hover */
+.ik-sidebar-header__trigger--expanded {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.ik-sidebar-header__trigger--expanded:hover {
+  background-color: var(--surface-blueprint-6);
+}
+
+/* Open (dropdown active) */
+.ik-sidebar-header__trigger--open {
+  background-color: var(--surface-blueprint-7);
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Logo container */
+.ik-sidebar-header__logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ik-sidebar-header__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Logo fallback — initial letter */
+.ik-sidebar-header__logo-fallback {
+  width: 100%;
+  height: 100%;
+  background-color: var(--surface-blueprint-7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-blueprint-1);
+}
+
+/* Text block (title + subtitle) */
+.ik-sidebar-header__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: margin 300ms ease-in-out, width 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.ik-sidebar-header__text--visible {
+  margin-left: 0.5rem;
+  width: auto;
+  opacity: 1;
+}
+
+.ik-sidebar-header__text--hidden {
+  margin-left: 0;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.ik-sidebar-header__title {
+  font-size: var(--text-base-size);
+  font-weight: 500;
+  color: var(--ink-blueprint-1);
+  line-height: 1;
+}
+
+.ik-sidebar-header__subtitle {
+  margin-top: 0.25rem;
+  font-size: var(--text-sm-size);
+  color: var(--ink-blueprint-1);
+  line-height: 1;
+}
+
+/* Chevron */
+.ik-sidebar-header__chevron {
+  width: 1rem;
+  height: 1rem;
+  color: var(--ink-blueprint-1);
+  transition: margin 300ms ease-in-out, width 300ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.ik-sidebar-header__chevron--visible {
+  margin-left: 0.5rem;
+  width: auto;
+  opacity: 1;
+}
+
+.ik-sidebar-header__chevron--hidden {
+  margin-left: 0;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   SIDEBAR ITEM
+   ----------------------------------------------------------------------------- */
+
+.ik-sidebar-item {
+  width: 100%;
+}
+
+.ik-sidebar-item:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Active state */
+.ik-sidebar-item--active {
+  background-color: var(--surface-blueprint-7) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Hover state */
+.ik-sidebar-item:not(.ik-sidebar-item--active):hover {
+  background-color: var(--surface-blueprint-6);
+}
+
+/* Inner layout */
+.ik-sidebar-item__inner {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 150ms ease-in-out;
+  padding: 0.25rem 0.5rem;
+}
+
+.ik-sidebar-item__left {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Icon wrapper */
+.ik-sidebar-item__icon-wrapper {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+}
+
+.ik-sidebar-item__icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--ink-blueprint-1);
+}
+
+/* Label */
+.ik-sidebar-item__label {
+  flex-shrink: 0;
+  font-size: var(--text-sm-size);
+  color: var(--ink-blueprint-1);
+  transition: all 150ms ease-in-out;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ik-sidebar-item__label--visible {
+  margin-left: 0.5rem;
+  width: auto;
+  opacity: 1;
+}
+
+.ik-sidebar-item__label--hidden {
+  margin-left: 0;
+  width: 0;
+  opacity: 0;
+}
+
+/* Suffix */
+.ik-sidebar-item__suffix {
+  transition: all 150ms ease-in-out;
+}
+
+.ik-sidebar-item__suffix--visible {
+  margin-left: auto;
+  width: auto;
+  opacity: 1;
+}
+
+.ik-sidebar-item__suffix--hidden {
+  margin-left: 0;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.ik-sidebar-item__suffix-text {
+  font-size: var(--text-sm-size);
+  color: var(--ink-blueprint-1);
+}
+
+/* -----------------------------------------------------------------------------
+   SIDEBAR SECTION
+   ----------------------------------------------------------------------------- */
+
+.ik-sidebar-section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+/* Section label row */
+.ik-sidebar-section__header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.5rem;
+}
+
+.ik-sidebar-section__header--collapsible {
+  cursor: pointer;
+}
+
+/* Section label text */
+.ik-sidebar-section__label {
+  height: 1rem;
+  font-size: var(--text-sm-size);
+  color: var(--ink-blueprint-1);
+  transition: width 300ms ease-in-out, opacity 300ms ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ik-sidebar-section__label--visible {
+  width: auto;
+  opacity: 1;
+}
+
+.ik-sidebar-section__label--hidden {
+  width: 0;
+  opacity: 0;
+}
+
+/* Collapsible chevron */
+.ik-sidebar-section__chevron {
+  width: 1rem;
+  height: 1rem;
+  color: var(--ink-blueprint-1);
+  transition: transform 300ms ease-in-out;
+}
+
+.ik-sidebar-section__chevron--open {
+  transform: rotate(90deg);
+}
+
+/* Divider — shown when sidebar is collapsed and section has a label */
+.ik-sidebar-section__divider-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 300ms ease-in-out;
+}
+
+.ik-sidebar-section__divider-wrap--visible {
+  opacity: 1;
+}
+
+.ik-sidebar-section__divider-wrap--hidden {
+  opacity: 0;
+}
+
+.ik-sidebar-section__divider {
+  width: 100%;
+  border-top: 1px solid var(--outline-blueprint-2);
+}
+
+/* Nav item list */
+.ik-sidebar-section__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem; /* space-y-0.5 */
+}
+
+/* -----------------------------------------------------------------------------
+   SIDEBAR SECTION — Collapse / Expand transition
+   These classes are applied by Vue <transition> — keep as-is
+   ----------------------------------------------------------------------------- */
+
+.ik-sidebar-section-enter-active {
+  transition: max-height 300ms ease-in;
+}
+
+.ik-sidebar-section-leave-active {
+  transition: max-height 300ms cubic-bezier(0, 1, 0.5, 1);
+}
+
+.ik-sidebar-section-enter-from,
+.ik-sidebar-section-leave-to {
+  max-height: 0;
+  overflow: hidden;
+}
+
+.ik-sidebar-section-enter-to,
+.ik-sidebar-section-leave-from {
+  max-height: 200px;
+  overflow: hidden;
+}
