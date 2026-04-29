@@ -1,0 +1,150 @@
+/* =============================================================================
+   Intrakore Design System — Alert.css
+   Covers: Alert.vue
+   Depends on: custom.css (tokens), typography.css (type scale)
+
+   Themes:  yellow · blue · red · green · (none = gray)
+   Variants: subtle (default) · outline
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   BASE
+   ----------------------------------------------------------------------------- */
+
+.ik-alert {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.75rem;
+  border-radius: var(--radius-md);
+  padding: 0.875rem 1rem;
+  font-size: var(--text-base-size);
+  align-items: start;
+}
+
+/* -----------------------------------------------------------------------------
+   VARIANT — Subtle backgrounds (default)
+   ----------------------------------------------------------------------------- */
+
+/* No theme — gray default */
+.ik-alert--subtle {
+  background-color: var(--surface-gray-2);
+}
+
+/* Yellow / Amber */
+.ik-alert--subtle.ik-alert--yellow {
+  background-color: var(--surface-amber-1);
+}
+
+/* Blue */
+.ik-alert--subtle.ik-alert--blue {
+  background-color: var(--surface-blue-1);
+}
+
+/* Red */
+.ik-alert--subtle.ik-alert--red {
+  background-color: var(--surface-red-3);
+}
+
+/* Green / Clearing */
+.ik-alert--subtle.ik-alert--green {
+  background-color: var(--surface-clearing-2);
+}
+
+/* -----------------------------------------------------------------------------
+   VARIANT — Outline
+   ----------------------------------------------------------------------------- */
+
+.ik-alert--outline {
+  border: 1px solid var(--outline-gray-4);
+  background-color: transparent;
+}
+
+/* -----------------------------------------------------------------------------
+   ICON — size and color per theme
+   ----------------------------------------------------------------------------- */
+
+.ik-alert__icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* Yellow — triangle-alert */
+.ik-alert__icon--yellow {
+  color: var(--ink-amber-2);
+}
+
+/* Blue — info */
+.ik-alert__icon--blue {
+  color: var(--ink-blue-2);
+}
+
+/* Red — circle-x */
+.ik-alert__icon--red {
+  color: var(--ink-red-3);
+}
+
+/* Green — circle-check */
+.ik-alert__icon--green {
+  color: var(--ink-clearing-2);
+}
+
+/* -----------------------------------------------------------------------------
+   CONTENT AREA
+   ----------------------------------------------------------------------------- */
+
+.ik-alert__body {
+  display: grid;
+  gap: 0.5rem;
+}
+
+/* When no icon is present — body spans 2 columns */
+.ik-alert__body--full {
+  grid-column: span 2;
+}
+
+.ik-alert__title {
+  color: var(--ink-gray-9);
+  font-size: var(--text-base-size);
+  line-height: var(--text-base-lh);
+}
+
+.ik-alert__description {
+  color: var(--ink-gray-6);
+  font-size: var(--text-sm-size);
+  line-height: var(--paragraph-sm-lh);
+}
+
+/* -----------------------------------------------------------------------------
+   DISMISS BUTTON
+   ----------------------------------------------------------------------------- */
+
+.ik-alert__dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--ink-gray-6);
+  transition: color 150ms ease;
+  flex-shrink: 0;
+}
+
+.ik-alert__dismiss:hover {
+  color: var(--ink-gray-9);
+}
+
+.ik-alert__dismiss svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* -----------------------------------------------------------------------------
+   FOOTER slot
+   ----------------------------------------------------------------------------- */
+
+.ik-alert__footer {
+  grid-column: 1 / -1;
+}

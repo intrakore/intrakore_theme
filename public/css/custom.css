@@ -4,42 +4,6 @@
    DO NOT EDIT MANUALLY
    ============================================================ */
 
-/* ── Fonts ─────────────────────────────────────────────────── */
-@font-face {
-  font-family: 'ITC Avant Garde Gothic Pro';
-  src: url('/assets/intrakore/fonts/ITCAvantGardeGothicPro-Demi.woff2') format('woff2'),
-       url('/assets/intrakore/fonts/ITCAvantGardeGothicPro-Demi.otf') format('opentype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'ITC Avant Garde Gothic Pro';
-  src: url('/assets/intrakore/fonts/ITCAvantGardeGothicPro-Medium.woff2') format('woff2'),
-       url('/assets/intrakore/fonts/ITCAvantGardeGothicPro-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Avenir';
-  src: url('/assets/intrakore/fonts/Avenir-Book.woff2') format('woff2'),
-       url('/assets/intrakore/fonts/Avenir-Book.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Avenir';
-  src: url('/assets/intrakore/fonts/Avenir-Black.woff2') format('woff2'),
-       url('/assets/intrakore/fonts/Avenir-Black.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* ── Primitive Color Palette (Light Mode Base) ─────────────── */
 :root {

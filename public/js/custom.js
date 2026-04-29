@@ -2,7 +2,7 @@
  * Intrakore Design System — custom.js
  * Auto-generated from Intrakore token pipeline
  * Use in Frappe via hooks.py:
- *   app_include_js = ["/assets/intrakore/js/custom.js"]
+ *   app_include_js = ["/assets/intrakore_theme/js/custom.js"]
  * DO NOT EDIT MANUALLY
  */
 

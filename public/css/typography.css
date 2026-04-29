@@ -1,6 +1,6 @@
 /* =============================================================================
    Intrakore Design System — typography.css
-   Load via hooks.py: app_include_css = ["/assets/intrakore/css/typography.css"]
+   Load via hooks.py: app_include_css = ["/assets/intrakore_theme/css/typography.css"]
 
    Depends on: fonts.css (must load first)
 
