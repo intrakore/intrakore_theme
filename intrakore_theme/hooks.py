@@ -5,6 +5,22 @@ app_description = "Custom Themes our clients using our app"
 app_email = "support@intrakore.com"
 app_license = "mit"
 
+
+app_include_js = "intrakore_theme.bundle.js"
+app_include_css = [
+    "/assets/intrakore_theme/css/fonts.css",
+    "/assets/intrakore_theme/css/typography.css",
+    "/assets/intrakore_theme/css/Button.css",
+    "/assets/intrakore_theme/css/Alert.css",
+    "/assets/intrakore_theme/css/IconPicker.css",
+    "/assets/intrakore_theme/css/List.css",
+    "/assets/intrakore_theme/css/Sidebar.css",
+    "/assets/intrakore_theme/css/custom.css"
+]
+
+# Optional: For website/web portal (if needed)
+web_include_js = "intrakore_theme.bundle.js"
+web_include_css = "intrakore_theme.bundle.css"
 # Apps
 # ------------------
 
