@@ -1,0 +1,100 @@
+/* ============================================================
+   Intrakore — Tooltip Component
+   Converted from Tooltip.vue (reka-ui) → vanilla CSS
+   Tokens: surface-blueprint-8, ink-blueprint-1, surface-blueprint-7
+   ============================================================ */
+
+/* ── Tooltip wrapper (injected by Tooltip.js on <body>) ── */
+.ik-tooltip {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+
+  /* Entrance animation */
+  opacity: 0;
+  transform: scale(0.96) translateY(2px);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.ik-tooltip.ik-tooltip--visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* ── Tooltip body (matches .rounded.bg-surface-blueprint-8.px-2.py-1) ── */
+.ik-tooltip__body {
+  background-color: var(--surface-blueprint-8);
+  color: var(--ink-blueprint-1);
+  font-size: 0.75rem;           /* text-xs */
+  line-height: 1rem;
+  font-family: var(--font-body, 'Avenir', sans-serif);
+  font-weight: 400;
+  padding: 0.25rem 0.5rem;      /* py-1 px-2 */
+  border-radius: 0.25rem;       /* rounded */
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.15),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  max-width: 240px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* ── Arrow ── */
+.ik-tooltip__arrow {
+  position: absolute;
+  width: 8px;
+  height: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ik-tooltip__arrow svg {
+  display: block;
+}
+
+/* Arrow fill matches arrowClass: fill-surface-blueprint-7 */
+.ik-tooltip__arrow svg polygon,
+.ik-tooltip__arrow svg path {
+  fill: var(--surface-blueprint-7);
+}
+
+/* ── Placement: top (default) ── */
+.ik-tooltip[data-placement='top'] .ik-tooltip__arrow {
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(180deg);
+}
+
+/* ── Placement: bottom ── */
+.ik-tooltip[data-placement='bottom'] .ik-tooltip__arrow {
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ── Placement: left ── */
+.ik-tooltip[data-placement='left'] .ik-tooltip__arrow {
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* ── Placement: right ── */
+.ik-tooltip[data-placement='right'] .ik-tooltip__arrow {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+/* ── Dark mode ── */
+[data-theme='dark'] .ik-tooltip__body {
+  background-color: var(--surface-blueprint-7-dark);
+  color: var(--ink-blueprint-1-dark);
+}
+
+[data-theme='dark'] .ik-tooltip__arrow svg polygon,
+[data-theme='dark'] .ik-tooltip__arrow svg path {
+  fill: var(--surface-blueprint-7-dark);
+}

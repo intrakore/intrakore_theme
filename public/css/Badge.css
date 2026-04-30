@@ -1,0 +1,233 @@
+/* =============================================================================
+   Intrakore Design System — Badge.css
+   Covers: Badge.vue (all themes · variants · sizes)
+   Depends on: custom.css (tokens), typography.css (type scale)
+
+   Themes:   gray · blueprint · blue · green · orange · red
+   Variants: solid · subtle · outline · ghost
+   Sizes:    sm · md · lg · xl
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   BASE
+   Always applied to every badge instance.
+   ----------------------------------------------------------------------------- */
+
+.ik-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+  user-select: none;
+  font-family: var(--font-body);
+}
+
+/* -----------------------------------------------------------------------------
+   SIZES
+   ----------------------------------------------------------------------------- */
+
+/* sm — h-4 / 16px */
+.ik-badge--sm {
+  height: 1rem;
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+  font-size: var(--text-xs-size);
+  line-height: var(--text-xs-lh);
+}
+
+/* md — h-5 / 20px (default) */
+.ik-badge--md {
+  height: 1.25rem;
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+  font-size: var(--text-xs-size);
+  line-height: var(--text-xs-lh);
+}
+
+/* lg — h-6 / 24px */
+.ik-badge--lg {
+  height: 1.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: var(--text-sm-size);
+  line-height: var(--text-sm-lh);
+}
+
+/* xl — h-7 / 28px */
+.ik-badge--xl {
+  height: 1.75rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: var(--text-base-size);
+  line-height: var(--text-base-lh);
+}
+
+/* -----------------------------------------------------------------------------
+   PREFIX / SUFFIX SLOT — max height per size
+   ----------------------------------------------------------------------------- */
+
+.ik-badge__slot {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* lg size slot */
+.ik-badge--lg .ik-badge__slot {
+  max-height: 1.5rem;  /* max-h-6 */
+}
+
+/* all other sizes */
+.ik-badge--sm .ik-badge__slot,
+.ik-badge--md .ik-badge__slot,
+.ik-badge--xl .ik-badge__slot {
+  max-height: 1rem;    /* max-h-4 */
+}
+
+/* =============================================================================
+   THEME × VARIANT MATRIX
+   Naming: .ik-badge--[theme]--[variant]
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   SOLID variant
+   ----------------------------------------------------------------------------- */
+
+.ik-badge--gray--solid {
+  color: var(--ink-white);
+  background-color: var(--surface-gray-7);
+}
+
+.ik-badge--blueprint--solid {
+  color: var(--ink-blueprint-1);
+  background-color: var(--surface-blueprint-7);
+}
+
+.ik-badge--blue--solid {
+  color: var(--ink-blue-1);
+  background-color: var(--surface-blue-2);
+}
+
+.ik-badge--green--solid {
+  color: var(--ink-green-1);
+  background-color: var(--surface-green-3);
+}
+
+.ik-badge--orange--solid {
+  color: var(--ink-amber-1);
+  background-color: var(--surface-amber-2);
+}
+
+.ik-badge--red--solid {
+  color: var(--ink-red-1);
+  background-color: var(--surface-red-4);
+}
+
+/* -----------------------------------------------------------------------------
+   SUBTLE variant (default)
+   ----------------------------------------------------------------------------- */
+
+.ik-badge--gray--subtle {
+  color: var(--ink-gray-6);
+  background-color: var(--surface-gray-2);
+}
+
+.ik-badge--blueprint--subtle {
+  color: var(--ink-blueprint-4);
+  background-color: var(--surface-blueprint-2);
+}
+
+.ik-badge--blue--subtle {
+  color: var(--ink-blue-2);
+  background-color: var(--surface-blue-2);
+}
+
+.ik-badge--green--subtle {
+  color: var(--ink-green-3);
+  background-color: var(--surface-green-2);
+}
+
+.ik-badge--orange--subtle {
+  color: var(--ink-amber-3);
+  background-color: var(--surface-amber-1);
+}
+
+.ik-badge--red--subtle {
+  color: var(--ink-red-4);
+  background-color: var(--surface-red-2);
+}
+
+/* -----------------------------------------------------------------------------
+   OUTLINE variant
+   ----------------------------------------------------------------------------- */
+
+.ik-badge--gray--outline {
+  color: var(--ink-gray-6);
+  background-color: transparent;
+  border: 1px solid var(--outline-gray-1);
+}
+
+.ik-badge--blueprint--outline {
+  color: var(--ink-blueprint-4);
+  background-color: transparent;
+  border: 1px solid var(--outline-blueprint-2);
+}
+
+.ik-badge--blue--outline {
+  color: var(--ink-blue-2);
+  background-color: transparent;
+  border: 1px solid var(--outline-blue-1);
+}
+
+.ik-badge--green--outline {
+  color: var(--ink-green-3);
+  background-color: transparent;
+  border: 1px solid var(--outline-green-2);
+}
+
+.ik-badge--orange--outline {
+  color: var(--ink-amber-3);
+  background-color: transparent;
+  border: 1px solid var(--outline-amber-2);
+}
+
+.ik-badge--red--outline {
+  color: var(--ink-red-4);
+  background-color: transparent;
+  border: 1px solid var(--outline-red-2);
+}
+
+/* -----------------------------------------------------------------------------
+   GHOST variant
+   ----------------------------------------------------------------------------- */
+
+.ik-badge--gray--ghost {
+  color: var(--ink-gray-6);
+  background-color: transparent;
+}
+
+.ik-badge--blueprint--ghost {
+  color: var(--ink-blueprint-4);
+  background-color: transparent;
+}
+
+.ik-badge--blue--ghost {
+  color: var(--ink-blue-2);
+  background-color: transparent;
+}
+
+.ik-badge--green--ghost {
+  color: var(--ink-green-3);
+  background-color: transparent;
+}
+
+.ik-badge--orange--ghost {
+  color: var(--ink-amber-3);
+  background-color: transparent;
+}
+
+.ik-badge--red--ghost {
+  color: var(--ink-red-4);
+  background-color: transparent;
+}

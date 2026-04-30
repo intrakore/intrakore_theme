@@ -1,0 +1,97 @@
+/* =============================================================================
+   Intrakore Design System — Tree.css
+   Covers: Tree.vue (recursive tree component)
+   Depends on: custom.css (tokens), typography.css (type scale)
+
+   Notes:
+   - rowHeight   is set inline via style (options.rowHeight, default 25px)
+   - indentWidth is set inline via style (options.indentWidth, default 20px)
+   - linePadding is computed in JS (half of icon clientWidth) — set inline
+   - showIndentationGuides controls visibility of the left border line
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   NODE ROW — the clickable row for each tree item
+   ----------------------------------------------------------------------------- */
+
+.ik-tree-node {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.25rem;
+  /* height set inline: :style="{ height: options.rowHeight }" */
+}
+
+/* -----------------------------------------------------------------------------
+   NODE ICON — chevron expand/collapse indicator
+   FeatherIcon chevrons replaced with Lucide Icon.vue equivalents:
+     chevron-down  → <Icon name="chevron-down"  class="ik-tree-node__icon" />
+     chevron-right → <Icon name="chevron-right" class="ik-tree-node__icon" />
+   ----------------------------------------------------------------------------- */
+
+.ik-tree-node__icon {
+  height: 0.875rem; /* h-3.5 — 14px */
+  width: auto;
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+/* -----------------------------------------------------------------------------
+   NODE LABEL — text content of each tree node
+   ----------------------------------------------------------------------------- */
+
+.ik-tree-node__label {
+  font-size: var(--text-base-size);
+  line-height: var(--text-base-lh);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Leaf node (no children) — indented to align with parent labels
+   that have a chevron icon taking up space */
+.ik-tree-node__label--leaf {
+  padding-left: 0.875rem; /* pl-3.5 — 14px, matches icon width */
+}
+
+/* Parent node (has children) — no extra indent, icon provides spacing */
+.ik-tree-node__label--parent {
+  padding-left: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   CHILDREN CONTAINER — wraps the indent guide + children list
+   ----------------------------------------------------------------------------- */
+
+.ik-tree-children {
+  display: flex;
+  /* shown only when hasChildren && !isCollapsed */
+}
+
+/* -----------------------------------------------------------------------------
+   INDENTATION GUIDE — vertical line on the left
+   Only rendered when options.showIndentationGuides = true
+   paddingLeft set inline: :style="{ paddingLeft: linePadding }"
+   linePadding = iconRef.clientWidth / 2 (computed onMounted in JS)
+   ----------------------------------------------------------------------------- */
+
+.ik-tree-guide {
+  border-right: 1px solid var(--outline-blueprint-2);
+  /* paddingLeft set inline — aligns line with center of icon */
+}
+
+/* -----------------------------------------------------------------------------
+   CHILDREN LIST — <ul> containing child <Tree> components
+   ----------------------------------------------------------------------------- */
+
+.ik-tree-list {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* paddingLeft set inline: :style="{ paddingLeft: options.indentWidth }" */
+}
+
+.ik-tree-list__item {
+  /* No additional styles — list item is just a structural wrapper */
+}

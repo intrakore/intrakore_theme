@@ -1,0 +1,120 @@
+/* =============================================================================
+   Intrakore Design System — Breadcrumbs.css
+   Covers: Breadcrumbs.vue
+   Depends on: custom.css (tokens), typography.css (type scale)
+
+   Notes:
+   - router-link, <a>, and <button> crumbs share identical styles
+   - Active crumb  = last item (darker text, no hover)
+   - Inactive crumb = all others (lighter text, hover darkens)
+   - Overflow: when crumbs exceed container width, all but last 2
+     collapse into a Dropdown triggered by an ellipsis button
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   ROOT WRAPPER
+   ----------------------------------------------------------------------------- */
+
+.ik-breadcrumbs {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+/* -----------------------------------------------------------------------------
+   OVERFLOW — Dropdown + separator
+   Shown when scrollWidth > clientWidth
+   ----------------------------------------------------------------------------- */
+
+/* Dropdown trigger height */
+.ik-breadcrumbs__overflow-dropdown {
+  height: 1.75rem;
+}
+
+/* Ellipsis icon */
+.ik-breadcrumbs__overflow-icon {
+  width: 1rem;
+  color: var(--ink-blueprint-2);
+}
+
+/* "/" separator after the overflow dropdown */
+.ik-breadcrumbs__overflow-separator {
+  margin-left: 0.25rem;
+  margin-right: 0.125rem;
+  font-size: var(--text-base-size);
+  color: var(--ink-blueprint-2);
+  user-select: none;
+}
+
+/* -----------------------------------------------------------------------------
+   CRUMBS CONTAINER
+   ----------------------------------------------------------------------------- */
+
+.ik-breadcrumbs__list {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* -----------------------------------------------------------------------------
+   CRUMB ITEM
+   Shared by router-link, <a>, and <button> — all render identically
+   ----------------------------------------------------------------------------- */
+
+.ik-breadcrumb {
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius);
+  padding: 0.25rem 0.125rem;
+  font-size: var(--text-lg-size);
+  font-weight: 500;
+  line-height: var(--text-lg-lh);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 150ms ease;
+  font-family: var(--font-body);
+}
+
+.ik-breadcrumb:focus {
+  outline: none;
+}
+
+.ik-breadcrumb:focus-visible {
+  outline: 2px solid var(--outline-blueprint-2);
+  outline-offset: 2px;
+}
+
+/* Inactive — all crumbs except last */
+.ik-breadcrumb--inactive {
+  color: var(--ink-blueprint-2);
+}
+
+.ik-breadcrumb--inactive:hover {
+  color: var(--ink-blueprint-3);
+}
+
+/* Active — last crumb only */
+.ik-breadcrumb--active {
+  color: var(--ink-blueprint-3);
+  cursor: default;
+  pointer-events: none;
+}
+
+/* -----------------------------------------------------------------------------
+   SEPARATOR — "/" between each crumb
+   Hidden after the last crumb (v-if="i != crumbs.length - 1")
+   ----------------------------------------------------------------------------- */
+
+.ik-breadcrumb__separator {
+  margin-left: 0.125rem;
+  margin-right: 0.125rem;
+  font-size: var(--text-base-size);
+  color: var(--ink-blueprint-2);
+  user-select: none;
+}

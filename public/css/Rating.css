@@ -1,0 +1,114 @@
+/* ============================================================
+   Intrakore — Rating Component
+   Converted from Rating.vue → vanilla CSS
+   Tokens: ink-blueprint-4, blueprint-200, yellow-200, yellow-500
+   ============================================================ */
+
+/* ── Wrapper (space-y-1) ── */
+.ik-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;               /* space-y-1 */
+}
+
+/* ── Label (text-xs text-ink-blueprint-4) ── */
+.ik-rating__label {
+  display: block;
+  font-size: 0.75rem;         /* text-xs */
+  line-height: 1rem;
+  color: var(--ink-blueprint-4);
+  font-family: var(--font-body, 'Avenir', sans-serif);
+  font-weight: 400;
+}
+
+/* ── Stars row (flex text-center) ── */
+.ik-rating__stars {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+/* ── Individual star wrapper ── */
+.ik-rating__star-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Star SVG (FeatherIcon name="star") ──
+   Base state: fill-blueprint-200, text-transparent, mr-0.5
+   "fill" maps to SVG fill, "text" maps to SVG stroke (currentColor)
+── */
+.ik-rating__star {
+  fill: var(--blueprint-200);
+  color: transparent;           /* stroke = transparent (text-transparent) */
+  stroke: transparent;
+  margin-right: 0.125rem;       /* mr-0.5 */
+  flex-shrink: 0;
+  transition:
+    fill 120ms ease,
+    transform 80ms ease;
+}
+
+/* ── Size variants ── */
+.ik-rating__star--sm {
+  width: 1rem;                  /* size-4 */
+  height: 1rem;
+}
+
+.ik-rating__star--md {
+  width: 1.25rem;               /* size-5 */
+  height: 1.25rem;
+}
+
+.ik-rating__star--lg {
+  width: 1.5rem;                /* size-6 */
+  height: 1.5rem;
+}
+
+.ik-rating__star--xl {
+  width: 1.75rem;               /* size-7 */
+  height: 1.75rem;
+}
+
+/* ── Rated (index <= rating.value) → !fill-yellow-500 ── */
+.ik-rating__star--rated {
+  fill: var(--yellow-500);
+}
+
+/* ── Hovered but not yet rated (index <= hovered && index > rating) → !fill-yellow-200 ── */
+.ik-rating__star--hovered {
+  fill: var(--yellow-200);
+}
+
+/* ── Interactive (not readonly) → cursor-pointer ── */
+.ik-rating__star--interactive {
+  cursor: pointer;
+}
+
+.ik-rating__star--interactive:hover {
+  transform: scale(1.15);
+}
+
+/* ── Readonly — no pointer, no hover scale ── */
+.ik-rating__star--readonly {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Dark mode ── */
+[data-theme='dark'] .ik-rating__label {
+  color: var(--ink-blueprint-4-dark);
+}
+
+[data-theme='dark'] .ik-rating__star {
+  fill: var(--blueprint-200-dark);
+}
+
+[data-theme='dark'] .ik-rating__star--rated {
+  fill: var(--yellow-500-dark);
+}
+
+[data-theme='dark'] .ik-rating__star--hovered {
+  fill: var(--yellow-200-dark);
+}

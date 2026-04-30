@@ -1,0 +1,157 @@
+/* =============================================================================
+   Intrakore Design System — Checkbox.css
+   Covers: Checkbox.vue
+   Depends on: custom.css (tokens), typography.css (type scale)
+
+   Props:
+     size     — 'sm' (default) | 'md'
+     padding  — false (default) | true  (adds click area padding + hover bg)
+     disabled — false (default) | true
+
+   Structure:
+     1. Wrapper
+     2. Input (checkbox element)
+     3. Label
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   1. WRAPPER
+   ----------------------------------------------------------------------------- */
+
+.ik-checkbox-wrapper {
+  display: inline-flex;
+  gap: 0.5rem;
+  border-radius: var(--radius);
+  transition: background-color 150ms ease, box-shadow 150ms ease;
+}
+
+/* Padding variants — applied when padding prop is true */
+.ik-checkbox-wrapper--padded-sm {
+  padding: 0.375rem 0.625rem; /* py-1.5 px-2.5 */
+}
+
+.ik-checkbox-wrapper--padded-md {
+  padding: 0.5rem 0.75rem;    /* py-2 px-3 */
+}
+
+/* Interactive states — padding=true AND disabled=false */
+.ik-checkbox-wrapper--interactive:hover {
+  background-color: var(--surface-blueprint-2);
+}
+
+.ik-checkbox-wrapper--interactive:focus-within {
+  background-color: var(--surface-blueprint-3);
+  outline: 2px solid var(--outline-blueprint-2);
+  outline-offset: 0;
+}
+
+.ik-checkbox-wrapper--interactive:active {
+  background-color: var(--surface-blueprint-3);
+}
+
+/* -----------------------------------------------------------------------------
+   2. INPUT — Checkbox element
+   ----------------------------------------------------------------------------- */
+
+.ik-checkbox {
+  border-radius: 0.125rem; /* rounded-sm */
+  margin-top: 1px;
+  background-color: var(--surface-white);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: border-color 150ms ease, box-shadow 150ms ease,
+              background-color 150ms ease;
+}
+
+/* Size variants */
+.ik-checkbox--sm {
+  width: 0.875rem;  /* w-3.5 — 14px */
+  height: 0.875rem;
+}
+
+.ik-checkbox--md {
+  width: 1rem;      /* w-4 — 16px */
+  height: 1rem;
+}
+
+/* ── Enabled state ── */
+.ik-checkbox--enabled {
+  border-color: var(--outline-blueprint-4);
+  color: var(--blueprint-500);
+}
+
+.ik-checkbox--enabled:hover {
+  border-color: var(--outline-blueprint-3);
+}
+
+.ik-checkbox--enabled:focus {
+  border-color: var(--outline-blueprint-4);
+  outline: none;
+  box-shadow: none;
+}
+
+.ik-checkbox--enabled:active {
+  border-color: var(--outline-blueprint-4);
+}
+
+/* ── Disabled state ── */
+.ik-checkbox--disabled {
+  border-color: var(--outline-blueprint-1);
+  background-color: var(--surface-blueprint-2);
+  color: var(--ink-blueprint-1);
+  cursor: not-allowed;
+}
+
+/* ── Focus ring — standalone (no padding wrapper) ── */
+.ik-checkbox--standalone:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.ik-checkbox--standalone:focus-visible {
+  outline: 2px solid var(--outline-blueprint-2);
+  outline-offset: 0;
+}
+
+.ik-checkbox--standalone:active {
+  background-color: var(--surface-blueprint-1);
+}
+
+/* ── Focus ring suppressed — inside padding wrapper ── */
+/* When inside .ik-checkbox-wrapper--interactive,
+   the wrapper handles focus-within ring, not the input */
+.ik-checkbox--padded:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* -----------------------------------------------------------------------------
+   3. LABEL
+   ----------------------------------------------------------------------------- */
+
+.ik-checkbox__label {
+  display: block;
+  user-select: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Size variants */
+.ik-checkbox__label--sm {
+  font-size: var(--text-base-size);
+  line-height: var(--text-base-lh);
+}
+
+.ik-checkbox__label--md {
+  font-size: var(--text-lg-size);
+  line-height: var(--text-lg-lh);
+}
+
+/* Color states */
+.ik-checkbox__label--enabled {
+  color: var(--ink-blueprint-4);
+}
+
+.ik-checkbox__label--disabled {
+  color: var(--ink-blueprint-2);
+  cursor: not-allowed;
+}
