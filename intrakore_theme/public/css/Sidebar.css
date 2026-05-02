@@ -387,3 +387,181 @@
   max-height: 200px;
   overflow: hidden;
 }
+
+/* =============================================================================
+   FRAPPE CRM SIDEBAR OVERRIDES
+   ============================================================================= */
+
+.body-sidebar-container,
+.body-sidebar {
+  background-color: var(--surface-menu-bar) !important;
+  border-right: 1px solid var(--outline-blueprint-1) !important;
+}
+
+.sidebar-header {
+  background-color: var(--surface-menu-bar) !important;
+}
+
+.sidebar-header .sidebar-item-label.header-title {
+  color: var(--ink-blueprint-1) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 500 !important;
+}
+
+.sidebar-header .sidebar-item-label.header-subtitle {
+  color: var(--ink-blueprint-1) !important;
+  font-family: var(--font-body) !important;
+  opacity: 0.7;
+}
+
+.sidebar-header .sidebar-item-icon,
+.sidebar-header .sidebar-item-icon svg {
+  color: var(--ink-blueprint-1) !important;
+  stroke: var(--ink-blueprint-1) !important;
+}
+
+.body-sidebar-top,
+.sidebar-items,
+.body-sidebar-cards {
+  background-color: var(--surface-menu-bar) !important;
+}
+
+.sidebar-item-container {
+  background-color: transparent !important;
+}
+
+.standard-sidebar-item {
+  border-radius: var(--radius) !important;
+  transition: background-color 150ms ease !important;
+  background-color: transparent !important;
+}
+
+.standard-sidebar-item .item-anchor {
+  color: var(--ink-blueprint-1) !important;
+  text-decoration: none !important;
+}
+
+.standard-sidebar-item .sidebar-item-icon,
+.standard-sidebar-item .sidebar-item-icon.text-ink-gray-7 {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.standard-sidebar-item .sidebar-item-icon svg,
+.standard-sidebar-item .sidebar-item-icon svg[stroke] {
+  color: var(--ink-blueprint-1) !important;
+  stroke: var(--ink-blueprint-1) !important;
+  fill: none !important;
+}
+
+.standard-sidebar-item .sidebar-item-label {
+  color: var(--ink-blueprint-1) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-base-size) !important;
+}
+
+.standard-sidebar-item:hover {
+  background-color: var(--surface-blueprint-6) !important;
+}
+
+.standard-sidebar-item:hover .sidebar-item-icon,
+.standard-sidebar-item:hover .sidebar-item-icon svg,
+.standard-sidebar-item:hover .sidebar-item-label,
+.standard-sidebar-item:hover .item-anchor {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.standard-sidebar-item.selected,
+.standard-sidebar-item.active,
+.standard-sidebar-item.highlighted {
+  background-color: var(--surface-blueprint-7) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.standard-sidebar-item.selected .sidebar-item-icon,
+.standard-sidebar-item.selected .sidebar-item-icon svg,
+.standard-sidebar-item.selected .sidebar-item-label,
+.standard-sidebar-item.selected .item-anchor,
+.standard-sidebar-item.active .sidebar-item-icon,
+.standard-sidebar-item.active .sidebar-item-icon svg,
+.standard-sidebar-item.active .sidebar-item-label,
+.standard-sidebar-item.active .item-anchor {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.sidebar-child-item.nested-container {
+  background-color: transparent !important;
+}
+
+.body-sidebar-bottom {
+  background-color: var(--surface-menu-bar) !important;
+  border-top: 1px solid var(--outline-blueprint-2) !important;
+}
+
+.collapse-sidebar-link {
+  color: var(--ink-blueprint-1) !important;
+  border-radius: var(--radius) !important;
+  transition: background-color 150ms ease !important;
+}
+
+.collapse-sidebar-link:hover {
+  background-color: var(--surface-blueprint-6) !important;
+}
+
+.collapse-sidebar-link svg[stroke],
+svg.text-ink-gray-7.current-color,
+svg.text-ink-gray-7 {
+  color: var(--ink-blueprint-1) !important;
+  stroke: var(--ink-blueprint-1) !important;
+}
+
+.collapse-sidebar-link span {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.sidebar-user-button {
+  color: var(--ink-blueprint-1) !important;
+  border-radius: var(--radius) !important;
+  transition: background-color 150ms ease !important;
+}
+
+.sidebar-user-button:hover {
+  background-color: var(--surface-blueprint-6) !important;
+}
+
+.avatar-name-email {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.avatar-name-email span {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.body-sidebar-bottom .text-secondary {
+  color: var(--ink-blueprint-1) !important;
+  opacity: 0.7;
+}
+
+.sidebar-toggle-btn {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: var(--surface-blueprint-6) !important;
+}
+
+.sidebar-notification {
+  background-color: var(--surface-blueprint-5) !important;
+}
+
+.body-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.body-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.body-sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--outline-blueprint-2);
+  border-radius: 9999px;
+}

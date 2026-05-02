@@ -8,19 +8,28 @@ app_license = "mit"
 
 app_include_js = "intrakore_theme.bundle.js"
 app_include_css = [
+    "/assets/intrakore_theme/css/custom.css",
     "/assets/intrakore_theme/css/fonts.css",
     "/assets/intrakore_theme/css/typography.css",
+    "/assets/intrakore_theme/css/Sidebar.css",
+    "/assets/intrakore_theme/css/List.css",
+    "/assets/intrakore_theme/css/IconPicker.css",
     "/assets/intrakore_theme/css/Button.css",
     "/assets/intrakore_theme/css/Alert.css",
-    "/assets/intrakore_theme/css/IconPicker.css",
-    "/assets/intrakore_theme/css/List.css",
-    "/assets/intrakore_theme/css/Sidebar.css",
-    "/assets/intrakore_theme/css/custom.css"
+    "/assets/intrakore_theme/css/Badge.css",
+    "/assets/intrakore_theme/css/Breadcrumbs.css",
+    "/assets/intrakore_theme/css/Checkbox.css",
+    "/assets/intrakore_theme/css/Tree.css",
+    "/assets/intrakore_theme/css/Divider.css",
+    "/assets/intrakore_theme/css/Toast.css",
+    "/assets/intrakore_theme/css/Tooltip.css",
+    "/assets/intrakore_theme/css/Calendar.css",
+    "/assets/intrakore_theme/css/Rating.css",
 ]
 
 # Optional: For website/web portal (if needed)
-web_include_js = "intrakore_theme.bundle.js"
-web_include_css = "intrakore_theme.bundle.css"
+# web_include_js = "intrakore_theme.bundle.js"
+# web_include_css = "intrakore_theme.bundle.css"
 # Apps
 # ------------------
 
