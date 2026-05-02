@@ -1,7 +1,7 @@
 /* ============================================================
    Intrakore — Tooltip Component
    Converted from Tooltip.vue (reka-ui) → vanilla CSS
-   Tokens: surface-blueprint-8, ink-blueprint-1, surface-blueprint-7
+   Tokens: surface-blueprint-7, ink-blueprint-1, surface-blueprint-7
    ============================================================ */
 
 /* ── Tooltip wrapper (injected by Tooltip.js on <body>) ── */
@@ -23,9 +23,9 @@
   transform: scale(1) translateY(0);
 }
 
-/* ── Tooltip body (matches .rounded.bg-surface-blueprint-8.px-2.py-1) ── */
+/* ── Tooltip body (matches .rounded.bg-surface-blueprint-7.px-2.py-1) ── */
 .ik-tooltip__body {
-  background-color: var(--surface-blueprint-8);
+  background-color: var(--surface-blueprint-7);
   color: var(--ink-blueprint-1);
   font-size: 0.75rem;           /* text-xs */
   line-height: 1rem;
