@@ -1,0 +1,505 @@
+/* =============================================================================
+   Intrakore Design System — frappe-overrides.css
+   Targets Frappe CRM's actual rendered DOM class names.
+   Must load AFTER custom.css.
+   Token values EXACTLY match Sidebar.css · Button.css · List.css · TextInput.css
+   ============================================================================= */
+
+/* =============================================================================
+   SIDEBAR — matches Sidebar.css tokens exactly
+   ============================================================================= */
+
+/* Root container — surface-menu-bar bg, outline-blueprint-1 border */
+.body-sidebar-container,
+.body-sidebar {
+  background-color: var(--surface-menu-bar) !important;
+  border-right: 1px solid var(--outline-blueprint-1) !important;
+}
+
+/* Sidebar header — surface-menu-bar bg */
+.sidebar-header {
+  background-color: var(--surface-menu-bar) !important;
+}
+
+.sidebar-header .sidebar-item-label.header-title {
+  color: var(--ink-blueprint-1) !important;
+  font-family: var(--font-body) !important;
+  font-weight: 500 !important;
+}
+
+.sidebar-header .sidebar-item-label.header-subtitle {
+  color: var(--ink-blueprint-1) !important;
+  font-family: var(--font-body) !important;
+  opacity: 0.7;
+}
+
+.sidebar-header .sidebar-item-icon,
+.sidebar-header .sidebar-item-icon svg {
+  color: var(--ink-blueprint-1) !important;
+  stroke: var(--ink-blueprint-1) !important;
+}
+
+/* Sidebar top areas — surface-menu-bar bg */
+.body-sidebar-top,
+.sidebar-items,
+.body-sidebar-cards {
+  background-color: var(--surface-menu-bar) !important;
+}
+
+.sidebar-item-container {
+  background-color: transparent !important;
+}
+
+/* Standard sidebar item — base */
+.standard-sidebar-item {
+  border-radius: var(--radius) !important;
+  transition: background-color 150ms ease !important;
+  background-color: transparent !important;
+}
+
+.standard-sidebar-item .item-anchor {
+  color: var(--ink-blueprint-1) !important;
+  text-decoration: none !important;
+}
+
+/* Icons — ink-blueprint-1 */
+.standard-sidebar-item .sidebar-item-icon,
+.standard-sidebar-item .sidebar-item-icon.text-ink-gray-7 {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.standard-sidebar-item .sidebar-item-icon svg,
+.standard-sidebar-item .sidebar-item-icon svg[stroke] {
+  color: var(--ink-blueprint-1) !important;
+  stroke: var(--ink-blueprint-1) !important;
+  fill: none !important;
+}
+
+/* Override Frappe's global svg text-ink-gray-7 — matches Sidebar.css */
+svg.text-ink-gray-7,
+svg.text-ink-gray-7.current-color {
+  color: var(--ink-blueprint-1) !important;
+  stroke: var(--ink-blueprint-1) !important;
+}
+
+/* Label — ink-blueprint-1 */
+.standard-sidebar-item .sidebar-item-label {
+  color: var(--ink-blueprint-1) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-base-size) !important;
+}
+
+/* Suffix — ink-blueprint-1 at 0.6 opacity */
+.standard-sidebar-item .sidebar-item-suffix,
+.standard-sidebar-item .sidebar-item-suffix.keyboard-shortcut {
+  color: var(--ink-blueprint-1) !important;
+  opacity: 0.6;
+}
+
+/* Hover — surface-blueprint-6 */
+.standard-sidebar-item:hover {
+  background-color: var(--surface-blueprint-6) !important;
+}
+
+.standard-sidebar-item:hover .sidebar-item-icon,
+.standard-sidebar-item:hover .sidebar-item-icon svg,
+.standard-sidebar-item:hover .sidebar-item-label,
+.standard-sidebar-item:hover .item-anchor {
+  color: var(--ink-blueprint-1) !important;
+}
+
+/* Active / selected — surface-blueprint-7, shadow-sm */
+.standard-sidebar-item.selected,
+.standard-sidebar-item.active,
+.standard-sidebar-item.highlighted {
+  background-color: var(--surface-blueprint-7) !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.standard-sidebar-item.selected .sidebar-item-icon,
+.standard-sidebar-item.selected .sidebar-item-icon svg,
+.standard-sidebar-item.selected .sidebar-item-label,
+.standard-sidebar-item.selected .item-anchor,
+.standard-sidebar-item.active .sidebar-item-icon,
+.standard-sidebar-item.active .sidebar-item-icon svg,
+.standard-sidebar-item.active .sidebar-item-label,
+.standard-sidebar-item.active .item-anchor {
+  color: var(--ink-blueprint-1) !important;
+}
+
+/* Nested child items */
+.sidebar-child-item.nested-container {
+  background-color: transparent !important;
+}
+
+.sidebar-child-item .standard-sidebar-item {
+  border-radius: var(--radius) !important;
+}
+
+/* Sidebar bottom — surface-menu-bar, outline-blueprint-2 top border */
+.body-sidebar-bottom {
+  background-color: var(--surface-menu-bar) !important;
+  border-top: 1px solid var(--outline-blueprint-2) !important;
+}
+
+/* Collapse link — ink-blueprint-1, hover surface-blueprint-6 */
+.collapse-sidebar-link {
+  color: var(--ink-blueprint-1) !important;
+  border-radius: var(--radius) !important;
+  transition: background-color 150ms ease !important;
+}
+
+.collapse-sidebar-link:hover {
+  background-color: var(--surface-blueprint-6) !important;
+}
+
+.collapse-sidebar-link svg[stroke] {
+  stroke: var(--ink-blueprint-1) !important;
+  color: var(--ink-blueprint-1) !important;
+}
+
+.collapse-sidebar-link span {
+  color: var(--ink-blueprint-1) !important;
+}
+
+/* Sidebar toggle — matches Sidebar.css .ik-sidebar__collapse-icon */
+.sidebar-toggle-btn {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.sidebar-toggle-btn:hover {
+  background-color: var(--surface-blueprint-6) !important;
+}
+
+.sidebar-toggle-icon,
+.sidebar-toggle-placeholder {
+  color: var(--ink-blueprint-1) !important;
+  stroke: var(--ink-blueprint-1) !important;
+}
+
+/* User button — ink-blueprint-1, hover surface-blueprint-6 */
+.sidebar-user-button {
+  color: var(--ink-blueprint-1) !important;
+  border-radius: var(--radius) !important;
+  transition: background-color 150ms ease !important;
+}
+
+.sidebar-user-button:hover {
+  background-color: var(--surface-blueprint-6) !important;
+}
+
+/* Avatar name/email — ink-blueprint-1 */
+.avatar-name-email,
+.avatar-name-email span {
+  color: var(--ink-blueprint-1) !important;
+}
+
+.body-sidebar-bottom .text-secondary {
+  color: var(--ink-blueprint-1) !important;
+  opacity: 0.7;
+}
+
+/* Notification dot — surface-blueprint-5 */
+.sidebar-notification {
+  background-color: var(--surface-blueprint-5) !important;
+}
+
+/* Scrollbar — outline-blueprint-2 thumb */
+.body-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.body-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.body-sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--outline-blueprint-2);
+  border-radius: 9999px;
+}
+
+/* =============================================================================
+   BUTTONS — matches Button.css tokens exactly
+   ============================================================================= */
+
+/* Primary — surface-blueprint-7 bg, ink-blueprint-1 text
+   NOTE: Frappe renders white text on dark bg so we use ink-white (#F9F9F9)
+   which equals --ink-white in light mode */
+.btn.btn-primary,
+.btn.btn-primary-action,
+.btn.btn-primary.btn-sm,
+.btn.btn-primary.btn-xs {
+  background-color: var(--surface-blueprint-7) !important;
+  border-color: var(--surface-blueprint-7) !important;
+  color: var(--ink-white) !important;
+  font-family: var(--font-body) !important;
+  border-radius: var(--radius) !important;
+}
+
+/* Primary hover — surface-blueprint-6 (matches .ik-btn--blueprint--solid:hover) */
+.btn.btn-primary:hover,
+.btn.btn-primary-action:hover {
+  background-color: var(--surface-blueprint-6) !important;
+  border-color: var(--surface-blueprint-6) !important;
+}
+
+/* Primary active — surface-blueprint-5 (matches .ik-btn--blueprint--solid:active) */
+.btn.btn-primary:active,
+.btn.btn-primary-action:active {
+  background-color: var(--surface-blueprint-5) !important;
+  border-color: var(--surface-blueprint-5) !important;
+}
+
+/* Primary focus — outline-blueprint-2 ring (matches .ik-btn--blueprint--focus) */
+.btn.btn-primary:focus-visible,
+.btn.btn-primary-action:focus-visible {
+  outline: 2px solid var(--outline-blueprint-2) !important;
+  outline-offset: 2px !important;
+}
+
+/* Secondary/default — surface-blueprint-1 bg, outline-blueprint-2 border, ink-blueprint-4 text
+   matches .ik-btn--blueprint--subtle */
+.btn.btn-secondary,
+.btn.btn-default,
+.btn.btn-secondary.btn-sm,
+.btn.btn-default.btn-sm {
+  background-color: var(--surface-blueprint-1) !important;
+  border: 1px solid var(--outline-blueprint-2) !important;
+  color: var(--ink-blueprint-4) !important;
+  font-family: var(--font-body) !important;
+  border-radius: var(--radius) !important;
+}
+
+/* Secondary hover — surface-blueprint-3 (matches .ik-btn--blueprint--subtle:hover) */
+.btn.btn-secondary:hover,
+.btn.btn-default:hover {
+  background-color: var(--surface-blueprint-3) !important;
+  border-color: var(--outline-blueprint-3) !important;
+}
+
+/* Danger button */
+.btn.btn-danger {
+  background-color: var(--surface-red-5) !important;
+  border-color: var(--surface-red-5) !important;
+  color: var(--ink-white) !important;
+  font-family: var(--font-body) !important;
+  border-radius: var(--radius) !important;
+}
+
+.btn.btn-danger:hover {
+  background-color: var(--surface-red-6) !important;
+  border-color: var(--surface-red-6) !important;
+}
+
+/* =============================================================================
+   INPUTS — matches TextInput.css tokens exactly
+   ============================================================================= */
+
+/* Subtle variant base — outline-blueprint-1 border, surface-blueprint-1 bg */
+.frappe-control input.form-control,
+.frappe-control textarea.form-control,
+.frappe-control select.form-control,
+input.form-control,
+input.input-with-feedback,
+textarea.form-control,
+select.form-control {
+  border: 1px solid var(--outline-blueprint-1) !important;
+  background-color: var(--surface-blueprint-1) !important;
+  color: var(--ink-gray-8) !important;
+  font-family: var(--font-body) !important;
+  border-radius: var(--radius) !important;
+}
+
+/* Hover — outline-blueprint-2 border, surface-blueprint-2 bg */
+.frappe-control input.form-control:hover,
+.frappe-control textarea.form-control:hover,
+input.form-control:hover,
+input.input-with-feedback:hover,
+textarea.form-control:hover {
+  border-color: var(--outline-blueprint-2) !important;
+  background-color: var(--surface-blueprint-2) !important;
+}
+
+/* Focus — outline-blueprint-2 border, surface-white bg, outline-blueprint-1 ring */
+.frappe-control input.form-control:focus,
+.frappe-control textarea.form-control:focus,
+input.form-control:focus,
+input.input-with-feedback:focus,
+textarea.form-control:focus {
+  border-color: var(--outline-blueprint-2) !important;
+  background-color: var(--surface-white) !important;
+  box-shadow: 0 0 0 2px var(--outline-blueprint-1) !important;
+  outline: none !important;
+}
+
+/* Placeholder — ink-gray-4 */
+.frappe-control input.form-control::placeholder,
+.frappe-control textarea.form-control::placeholder,
+input.form-control::placeholder,
+input.input-with-feedback::placeholder,
+textarea.form-control::placeholder {
+  color: var(--ink-gray-4) !important;
+}
+
+/* Disabled — surface-gray-1 bg, ink-gray-5 text */
+.frappe-control input.form-control:disabled,
+.frappe-control textarea.form-control:disabled,
+input.form-control:disabled,
+input.input-with-feedback:disabled,
+textarea.form-control:disabled {
+  background-color: var(--surface-gray-1) !important;
+  border-color: transparent !important;
+  color: var(--ink-gray-5) !important;
+  cursor: not-allowed !important;
+}
+
+/* =============================================================================
+   PAGE HEADER
+   ============================================================================= */
+
+.page-head {
+  background-color: var(--surface-white) !important;
+  border-bottom: 1px solid var(--outline-blueprint-1) !important;
+}
+
+.page-title .title-text {
+  font-family: var(--font-display) !important;
+  color: var(--ink-gray-9) !important;
+  font-weight: 600 !important;
+}
+
+/* =============================================================================
+   LIST VIEW — matches List.css tokens exactly
+   ============================================================================= */
+
+.list-row-container {
+  border-bottom: none !important;
+}
+
+.list-row-head {
+  background-color: var(--surface-blueprint-2) !important;
+  border-bottom: none !important;
+  font-family: var(--font-body) !important;
+}
+
+.list-row-head.text-muted {
+  color: var(--ink-blueprint-4) !important;
+}
+
+.list-row-head .list-row-col {
+  color: var(--ink-blueprint-4) !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-sm-size, 0.875rem) !important;
+  font-weight: 500 !important;
+}
+
+.list-row-head .level-item,
+.list-row-head .level-item span {
+  color: var(--ink-blueprint-4) !important;
+}
+
+.list-count,
+.list-count span,
+.level-right .list-count,
+.level-right .list-count span {
+  color: var(--ink-blueprint-4) !important;
+  font-family: var(--font-body) !important;
+}
+
+.list-row {
+  font-family: var(--font-body) !important;
+  border-bottom: 1px solid var(--outline-gray-1) !important;
+}
+
+.list-row:hover {
+  background-color: var(--surface-gray-2) !important;
+}
+
+/* All row level-items — ink-gray-7 */
+.list-row .level-item {
+  color: var(--ink-gray-7) !important;
+}
+
+/* Rest columns — ink-gray-7 */
+.list-row .list-row-col {
+  color: var(--ink-gray-7) !important;
+  font-family: var(--font-body) !important;
+}
+
+/* First/subject column — ink-gray-9, must come after rest */
+.list-row .list-row-col.list-subject {
+  color: var(--ink-gray-9) !important;
+}
+
+/* Subject link — ink-blueprint-4, must come last */
+.list-row .list-subject .level-item.bold a,
+.list-row .list-row-col.list-subject a {
+  color: var(--ink-blueprint-4) !important;
+  font-family: var(--font-body) !important;
+}
+
+.list-row .list-subject .level-item.bold a:hover,
+.list-row .list-row-col.list-subject a:hover {
+  color: var(--ink-blueprint-3) !important;
+}
+
+.list-row-checkbox,
+.list-header-checkbox {
+  accent-color: var(--surface-blueprint-7) !important;
+}
+
+.list-row.selected-row {
+  background-color: var(--surface-gray-2) !important;
+}
+
+.list-header-meta {
+  color: var(--ink-blueprint-4) !important;
+}
+
+.list-footer {
+  border-top: 1px solid var(--outline-gray-1) !important;
+  background-color: var(--surface-white) !important;
+}
+
+.list-footer .text-muted {
+  color: var(--ink-gray-5) !important;
+  font-family: var(--font-body) !important;
+}
+/* Fix level-right background in list header — matches surface-blueprint-2 */
+.list-row-head .level-right {
+  background-color: var(--surface-blueprint-2) !important;
+  border-left: none !important;
+}
+
+/* Fix level-right background in list rows — transparent */
+.list-row .level-right {
+  background-color: transparent !important;
+  border-left: none !important;
+}
+/* =============================================================================
+   PAGINATION — matches List.css tokens
+   ============================================================================= */
+
+/* Active pagination button — surface-blueprint-7 bg, ink-white text */
+.list-paging-area .btn-group .btn-paging.btn-info,
+.btn-paging.btn-info {
+  background-color: var(--surface-blueprint-7) !important;
+  border-color: var(--surface-blueprint-7) !important;
+  color: var(--ink-white) !important;
+  font-family: var(--font-body) !important;
+}
+
+/* Inactive pagination buttons — surface-blueprint-1 bg */
+.list-paging-area .btn-paging,
+.footnote-area .btn-paging {
+  background-color: var(--surface-blueprint-1) !important;
+  border: 1px solid var(--outline-blueprint-2) !important;
+  color: var(--ink-blueprint-4) !important;
+  font-family: var(--font-body) !important;
+  border-radius: var(--radius) !important;
+}
+
+.list-paging-area .btn-paging:hover {
+  background-color: var(--surface-blueprint-2) !important;
+  border-color: var(--outline-blueprint-3) !important;
+}

@@ -1,237 +1,657 @@
 /**
  * Intrakore Design System — List.js
- * Runtime utilities for the List component family.
+ * Vanilla JS equivalent of the frappe-ui ListView component system.
  *
- * Covers: List · ListRow · ListRows · ListHeader · ListHeaderItem
- *         ListRowItem · ListEmptyState · ListFooter · ListGroups
- *         ListGroupHeader · ListGroupRows · ListSelectBanner
+ * Converts: ListView.vue · ListRow.vue · ListRows.vue · ListHeader.vue
+ *           ListHeaderItem.vue · ListRowItem.vue · ListEmptyState.vue
+ *           ListFooter.vue · ListGroups.vue · ListGroupHeader.vue
+ *           ListGroupRows.vue · ListSelectBanner.vue · utils.js
  *
- * Replaces: utils.js (getGridTemplateColumns, alignmentMap)
- * Depends on: custom.js (window.IK must be loaded first)
+ * Usage:
+ *   const list = new IKListView(containerEl, {
+ *     columns: [{ key: 'name', label: 'Name', width: 2 }, ...],
+ *     rows: [{ name: 'Row 1', status: 'Active' }, ...],
+ *     rowKey: 'name',
+ *     options: {
+ *       selectable: true,
+ *       resizeColumn: false,
+ *       rowHeight: 40,
+ *       showTooltip: true,
+ *       getRowRoute: (row) => `/app/lead/${row.name}`,
+ *       onRowClick: (row) => console.log(row),
+ *       emptyState: { title: 'No Data', description: 'Nothing here yet.' },
+ *     },
+ *     onSelectionChange: (selections) => console.log([...selections]),
+ *     onActiveRowChange: (row) => console.log(row),
+ *   })
+ *
+ *   list.setRows(newRows)
+ *   list.setColumns(newColumns)
+ *   list.getSelections()       // → Set of selected rowKeys
+ *   list.clearSelections()
+ *   list.selectAll()
+ *   list.destroy()
  */
 
-/* ── Alignment map ───────────────────────────────────────────────────────────
-   Replaces the alignmentMap export from utils.js.
-   Maps column.align values to Intrakore CSS classes.
+'use strict'
 
-   Original utils.js:
-     export const alignmentMap = {
-       left:   'justify-start',
-       start:  'justify-start',
-       center: 'justify-center',
-       middle: 'justify-center',
-       right:  'justify-end',
-       end:    'justify-end',
-     }
+/* ─── utils.js ────────────────────────────────────────────────────────────── */
 
-   Usage in Vue templates (replace Tailwind class with IK class):
-     :class="IK_LIST.alignmentMap[column.align]"
-   ─────────────────────────────────────────────────────────────────────────── */
-
-const IK_LIST_ALIGNMENT = {
-  // Header item alignment
-  header: {
-    left:    'ik-list-header-item--start',
-    start:   'ik-list-header-item--start',
-    center:  'ik-list-header-item--center',
-    middle:  'ik-list-header-item--center',
-    right:   'ik-list-header-item--end',
-    end:     'ik-list-header-item--end',
-    default: 'ik-list-header-item--between',
-  },
-  // Row item alignment
-  row: {
-    left:   'ik-list-row-item--start',
-    start:  'ik-list-row-item--start',
-    center: 'ik-list-row-item--center',
-    middle: 'ik-list-row-item--center',
-    right:  'ik-list-row-item--end',
-    end:    'ik-list-row-item--end',
-  },
+const alignmentMap = {
+  left:   'ik-list-row-item--justify-start',
+  start:  'ik-list-row-item--justify-start',
+  center: 'ik-list-row-item--justify-center',
+  middle: 'ik-list-row-item--justify-center',
+  right:  'ik-list-row-item--justify-end',
+  end:    'ik-list-row-item--justify-end',
 }
 
-/* ── Grid template columns ───────────────────────────────────────────────────
-   Direct replacement for getGridTemplateColumns from utils.js.
-   Logic is identical — only the function is re-exported here so components
-   can import from List.js instead of utils.js.
-
-   Original utils.js:
-     export function getGridTemplateColumns(columns, withCheckbox = true) {
-       let checkBoxWidth = withCheckbox ? '14px ' : ''
-       let columnsWidth = columns.map((col) => {
-         let width = col.width || 1
-         if (typeof width === 'number') return width + 'fr'
-         return width
-       }).join(' ')
-       return checkBoxWidth + columnsWidth
-     }
-   ─────────────────────────────────────────────────────────────────────────── */
+const headerAlignmentMap = {
+  left:   'ik-list-header-item--justify-start',
+  start:  'ik-list-header-item--justify-start',
+  center: 'ik-list-header-item--justify-center',
+  middle: 'ik-list-header-item--justify-center',
+  right:  'ik-list-header-item--justify-end',
+  end:    'ik-list-header-item--justify-end',
+  between: 'ik-list-header-item--justify-between',
+}
 
 function getGridTemplateColumns(columns, withCheckbox = true) {
-  const checkBoxWidth = withCheckbox ? '14px ' : ''
+  const checkboxWidth = withCheckbox ? '14px ' : ''
   const columnsWidth = columns
     .map((col) => {
       const width = col.width || 1
-      if (typeof width === 'number') return width + 'fr'
-      return width
+      return typeof width === 'number' ? `${width}fr` : width
     })
     .join(' ')
-  return checkBoxWidth + columnsWidth
+  return checkboxWidth + columnsWidth
 }
 
-/* ── Token map ───────────────────────────────────────────────────────────────
-   Color and size tokens used across the List component family.
-   Useful for passing colors into JS-driven elements (charts, canvas, etc.)
-   ─────────────────────────────────────────────────────────────────────────── */
+function defaultTrue(value)  { return value === undefined ? true  : value }
+function defaultFalse(value) { return value === undefined ? false : value }
 
-const LIST_TOKENS = {
-  /* Header */
-  headerBg:              'var(--surface-blueprint-2)',
-  headerTextColor:       'var(--ink-blueprint-4)',
+/* ─── IKListView ──────────────────────────────────────────────────────────── */
 
-  /* Group header */
-  groupToggleHoverBg:    'var(--surface-blueprint-1)',
-  groupIconColor:        'var(--ink-blueprint-3)',
-  groupDividerColor:     'var(--outline-gray-modals)',
+class IKListView {
+  /**
+   * @param {HTMLElement} container
+   * @param {object} props
+   */
+  constructor(container, props = {}) {
+    if (!(container instanceof HTMLElement)) {
+      throw new TypeError('IKListView: first argument must be an HTMLElement.')
+    }
 
-  /* Row states */
-  rowSelectedBg:         'var(--surface-gray-2)',
-  rowHoverBg:            'var(--surface-gray-1)',
-  rowHoverSelectedBg:    'var(--surface-gray-3)',
+    this._container = container
+    this._props     = this._normaliseProps(props)
 
-  /* Row cells */
-  cellFirstColor:        'var(--ink-gray-9)',
-  cellRestColor:         'var(--ink-gray-7)',
+    /* Internal state */
+    this._selections = new Set()
+    this._activeRow  = null
+    this._grouped    = false
 
-  /* Row dividers */
-  rowDividerInset:       'var(--outline-gray-1)',
-  rowDividerFlush:       'var(--surface-gray-2)',
-
-  /* Column resizer */
-  resizerHoverColor:     'var(--blueprint-400)',
-
-  /* Select banner */
-  bannerBg:              'var(--surface-white)',
-  bannerBorderColor:     'var(--outline-gray-2)',
-  bannerTextColor:       'var(--ink-gray-9)',
-  bannerBtnColor:        'var(--ink-gray-7)',
-  bannerShadow:          'var(--shadow-2xl)',
-
-  /* Empty state */
-  emptyTitleColor:       'var(--ink-gray-8)',
-  emptyDescColor:        'var(--ink-gray-5)',
-}
-
-/* ── Row state class helper ──────────────────────────────────────────────────
-   Replaces the dynamic :class bindings in ListRow.vue.
-
-   Usage in Vue (replaces the original :class array):
-     :class="getRowClasses({ isSelected, isActive, isHoverable })"
-   ─────────────────────────────────────────────────────────────────────────── */
-
-function getRowClasses({ isSelected = false, isActive = false, isHoverable = false } = {}) {
-  return [
-    'ik-list-row',
-    (isSelected || isActive) ? 'ik-list-row--selected' : '',
-    isHoverable ? 'ik-list-row--hoverable' : '',
-  ].filter(Boolean)
-}
-
-/* ── Row rounded class helper ────────────────────────────────────────────────
-   Replaces the roundedClass computed in ListRow.vue.
-   Logic is identical to the original — returns the correct IK class.
-
-   Usage:
-     :class="getRowRoundedClass({ isSelected, row, list })"
-   ─────────────────────────────────────────────────────────────────────────── */
-
-function getRowRoundedClass({ isSelected, row, list }) {
-  if (!isSelected) return 'ik-list-row--rounded'
-
-  const selections = [...list.selections]
-  let groups = list.rows[0]?.group
-    ? list.rows.map((k) => k.rows)
-    : [list.rows]
-
-  for (let rows of groups) {
-    const currentIndex = rows.findIndex((k) => k === row)
-    if (currentIndex === -1) continue
-    const atBottom = !selections.includes(rows[currentIndex + 1]?.name)
-    const atTop = !selections.includes(rows[currentIndex - 1]?.name)
-    const classes = []
-    if (atBottom) classes.push('ik-list-row--rounded-b')
-    if (atTop) classes.push('ik-list-row--rounded-t')
-    return classes.join(' ')
+    this._render()
   }
 
-  return 'ik-list-row--rounded'
-}
+  /* ── Public API ─────────────────────────────────────────────────────────── */
 
-/* ── Row divider class helper ────────────────────────────────────────────────
-   Replaces the inline ternary on the divider <div> in ListRow.vue.
+  getSelections()    { return new Set(this._selections) }
+  clearSelections()  { this._selections.clear(); this._syncSelectionUI(); this._syncBanner() }
+  selectAll()        { this._toggleAllRows(true) }
 
-   Usage:
-     :class="getRowDividerClass(roundedClass)"
-   ─────────────────────────────────────────────────────────────────────────── */
-
-function getRowDividerClass(roundedClass) {
-  if (roundedClass === 'ik-list-row--rounded' || roundedClass?.includes('rounded-b')) {
-    return 'ik-list-row__divider ik-list-row__divider--inset'
+  setRows(rows) {
+    this._props.rows = rows || []
+    this._grouped = this._isGrouped()
+    this._rerenderBody()
   }
-  return 'ik-list-row__divider ik-list-row__divider--flush'
+
+  setColumns(columns) {
+    this._props.columns = columns || []
+    this._rerenderHeader()
+    this._rerenderBody()
+  }
+
+  destroy() {
+    this._container.innerHTML = ''
+  }
+
+  /* ── Private: prop normalisation ────────────────────────────────────────── */
+
+  _normaliseProps(props) {
+    const o = props.options || {}
+    return {
+      columns : props.columns  || [],
+      rows    : props.rows     || [],
+      rowKey  : props.rowKey   || 'name',
+      options : {
+        getRowRoute    : o.getRowRoute    || null,
+        onRowClick     : o.onRowClick     || null,
+        showTooltip    : defaultTrue(o.showTooltip),
+        selectionText  : o.selectionText  || ((n) => n === 1 ? '1 row selected' : `${n} rows selected`),
+        enableActive   : defaultFalse(o.enableActive),
+        selectable     : defaultTrue(o.selectable),
+        resizeColumn   : defaultFalse(o.resizeColumn),
+        rowHeight      : o.rowHeight || 40,
+        emptyState     : o.emptyState || { title: 'No Data', description: 'No data available.' },
+      },
+      onSelectionChange : props.onSelectionChange || null,
+      onActiveRowChange : props.onActiveRowChange || null,
+    }
+  }
+
+  /* ── Private: initial render ────────────────────────────────────────────── */
+
+  _render() {
+    this._grouped = this._isGrouped()
+
+    /* Root — .ik-list */
+    this._rootEl = document.createElement('div')
+    this._rootEl.className = 'ik-list'
+
+    /* Inner — .ik-list__inner */
+    this._innerEl = document.createElement('div')
+    this._innerEl.className = 'ik-list__inner'
+
+    /* Header */
+    this._headerEl = this._buildHeader()
+    this._innerEl.appendChild(this._headerEl)
+
+    /* Body */
+    this._bodyEl = document.createElement('div')
+    this._rerenderBody()
+    this._innerEl.appendChild(this._bodyEl)
+
+    /* Select banner */
+    this._bannerEl = this._buildSelectBanner()
+    this._innerEl.appendChild(this._bannerEl)
+
+    this._rootEl.appendChild(this._innerEl)
+    this._container.innerHTML = ''
+    this._container.appendChild(this._rootEl)
+  }
+
+  /* ── Private: header ────────────────────────────────────────────────────── */
+
+  _buildHeader() {
+    const { columns, options } = this._props
+    const header = document.createElement('div')
+    header.className = 'ik-list-header'
+    header.style.gridTemplateColumns = getGridTemplateColumns(columns, options.selectable)
+
+    if (options.selectable) {
+      const cb = this._buildCheckbox(this._allRowsSelected(), false, (e) => {
+        e.stopPropagation()
+        this._toggleAllRows(!this._allRowsSelected())
+      })
+      cb.classList.add('ik-list-header__checkbox')
+      this._headerCheckbox = cb
+      header.appendChild(cb)
+    }
+
+    columns.forEach((col) => {
+      header.appendChild(this._buildHeaderItem(col))
+    })
+
+    return header
+  }
+
+  _buildHeaderItem(col) {
+    const wrap = document.createElement('div')
+    wrap.className = [
+      'ik-list-header-item',
+      col.align ? headerAlignmentMap[col.align] : 'ik-list-header-item--justify-between',
+    ].join(' ')
+
+    const label = document.createElement('div')
+    label.className = 'ik-list-header-item__label'
+    const text = document.createElement('div')
+    text.className = 'ik-list-header-item__label-text'
+    text.textContent = col.label || ''
+    label.appendChild(text)
+    wrap.appendChild(label)
+
+    if (this._props.options.resizeColumn) {
+      const resizerWrap = document.createElement('div')
+      resizerWrap.className = 'ik-list-header-item__resizer-wrap'
+      const resizerHandle = document.createElement('div')
+      resizerHandle.className = 'ik-list-header-item__resizer-handle'
+      resizerWrap.appendChild(resizerHandle)
+      wrap.appendChild(resizerWrap)
+      this._attachResizer(resizerWrap, col, wrap)
+    }
+
+    return wrap
+  }
+
+  _rerenderHeader() {
+    const newHeader = this._buildHeader()
+    this._innerEl.replaceChild(newHeader, this._headerEl)
+    this._headerEl = newHeader
+  }
+
+  /* ── Private: body ──────────────────────────────────────────────────────── */
+
+  _rerenderBody() {
+    const { rows, options } = this._props
+    this._bodyEl.innerHTML = ''
+
+    if (!rows.length) {
+      this._bodyEl.appendChild(this._buildEmptyState())
+      return
+    }
+
+    if (this._grouped) {
+      this._bodyEl.appendChild(this._buildGroups())
+    } else {
+      this._bodyEl.appendChild(this._buildRows(rows))
+    }
+  }
+
+  /* ── Private: rows ──────────────────────────────────────────────────────── */
+
+  _buildRows(rows) {
+    const wrapper = document.createElement('div')
+    wrapper.className = 'ik-list-rows'
+    rows.forEach((row, idx) => {
+      wrapper.appendChild(this._buildRow(row, idx === rows.length - 1, rows))
+    })
+    return wrapper
+  }
+
+  _buildRow(row, isLast, allRows) {
+    const { options, columns, rowKey } = this._props
+    const isSelected = this._selections.has(row[rowKey])
+    const isActive   = options.enableActive && this._activeRow === row.name
+    const isHoverable = !!(options.getRowRoute || options.onRowClick)
+
+    const roundedClass = this._getRoundedClass(row, allRows)
+
+    /* Outer element — router-link becomes <a>, otherwise div */
+    const outer = document.createElement(options.getRowRoute ? 'a' : 'div')
+    outer.className = [
+      'ik-list-row',
+      roundedClass,
+      isSelected || isActive ? 'ik-list-row--selected' : '',
+      row.disabled            ? 'ik-list-row--disabled' : '',
+      isHoverable && !row.disabled ? 'ik-list-row--hoverable' : '',
+    ].filter(Boolean).join(' ')
+
+    if (options.getRowRoute && !row.disabled) {
+      const route = options.getRowRoute(row)
+      if (typeof route === 'string' && route.startsWith('http')) {
+        outer.href = route
+      } else {
+        outer.href = route
+      }
+    }
+
+    if (row.disabled) {
+      outer.setAttribute('aria-disabled', 'true')
+      outer.tabIndex = -1
+    }
+
+    /* Inner grid */
+    const grid = document.createElement('div')
+    grid.className = 'ik-list-row__grid' + (row.disabled ? ' ik-list-row__grid--disabled' : '')
+    const rowHeight = typeof options.rowHeight === 'number'
+      ? `${options.rowHeight}px`
+      : options.rowHeight
+    grid.style.height = rowHeight
+    grid.style.gridTemplateColumns = getGridTemplateColumns(columns, options.selectable)
+
+    /* Checkbox cell */
+    if (options.selectable) {
+      const cbCell = document.createElement('div')
+      cbCell.className = 'ik-list-row__checkbox-cell'
+      cbCell.addEventListener('click', (e) => e.stopPropagation())
+      cbCell.addEventListener('dblclick', (e) => e.stopPropagation())
+      const cb = this._buildCheckbox(isSelected, row.disabled, (e) => {
+        this._handleCheckboxClick(e, row, allRows)
+      })
+      cbCell.appendChild(cb)
+      grid.appendChild(cbCell)
+    }
+
+    /* Column cells */
+    columns.forEach((col, i) => {
+      const cell = document.createElement('div')
+      cell.className = i === 0 ? 'ik-list-row__cell ik-list-row__cell--first' : 'ik-list-row__cell ik-list-row__cell--rest'
+      cell.appendChild(this._buildRowItem(col, row, row[col.key]))
+      grid.appendChild(cell)
+    })
+
+    outer.appendChild(grid)
+
+    /* Divider */
+    if (!isLast) {
+      const divider = document.createElement('div')
+      const isRounded = roundedClass === 'ik-list-row--rounded' || roundedClass?.includes('rounded-b')
+      divider.className = 'ik-list-row__divider ' + (isRounded ? 'ik-list-row__divider--inset' : 'ik-list-row__divider--flush')
+      outer.appendChild(divider)
+    }
+
+    /* Row click */
+    outer.addEventListener('click', (e) => {
+      if (row.disabled) return
+      if (options.onRowClick) options.onRowClick(row, e)
+      if (options.enableActive) {
+        this._activeRow = this._activeRow === row.name ? null : row.name
+        this._syncSelectionUI()
+        if (this._props.onActiveRowChange) this._props.onActiveRowChange(this._activeRow)
+      }
+    })
+
+    return outer
+  }
+
+  _buildRowItem(col, row, item) {
+    const wrap = document.createElement('div')
+    wrap.className = ['ik-list-row-item', alignmentMap[col.align] || 'ik-list-row-item--justify-start'].join(' ')
+
+    const label = document.createElement('div')
+    label.className = 'ik-list-row-item__label'
+
+    const value = item && typeof item === 'object' ? (item.label || '') : (item ?? '')
+    label.textContent = String(value)
+
+    if (col.getLabel) label.textContent = col.getLabel({ row }) || ''
+
+    wrap.appendChild(label)
+    return wrap
+  }
+
+  /* ── Private: groups ────────────────────────────────────────────────────── */
+
+  _buildGroups() {
+    const wrapper = document.createElement('div')
+    wrapper.className = 'ik-list-groups'
+
+    this._props.rows.forEach((group) => {
+      wrapper.appendChild(this._buildGroupHeader(group))
+      wrapper.appendChild(this._buildGroupRows(group))
+    })
+
+    return wrapper
+  }
+
+  _buildGroupHeader(group) {
+    const wrap = document.createElement('div')
+    wrap.className = 'ik-list-group-header'
+
+    /* Toggle button */
+    const btn = document.createElement('button')
+    btn.className = 'ik-list-group-header__toggle'
+    btn.type = 'button'
+
+    const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    icon.setAttribute('viewBox', '0 0 16 16')
+    icon.setAttribute('fill', 'currentColor')
+    icon.className = 'ik-list-group-header__icon' + (group.collapsed ? ' ik-list-group-header__icon--collapsed' : '')
+    icon.innerHTML = '<path d="M8 10L3 5h10l-5 5z"/>'
+    btn.appendChild(icon)
+
+    btn.addEventListener('click', () => {
+      group.collapsed = !group.collapsed
+      icon.classList.toggle('ik-list-group-header__icon--collapsed', group.collapsed)
+      rowsEl.style.display = group.collapsed ? 'none' : ''
+    })
+
+    wrap.appendChild(btn)
+
+    /* Label */
+    const content = document.createElement('div')
+    content.className = 'ik-list-group-header__content'
+    const label = document.createElement('span')
+    label.className = 'ik-list-group-header__label'
+    label.textContent = group.group || ''
+    content.appendChild(label)
+    wrap.appendChild(content)
+
+    /* Divider */
+    const divider = document.createElement('div')
+    divider.className = 'ik-list-group-header__divider'
+    wrap.appendChild(divider)
+
+    /* Store reference for toggle */
+    var rowsEl = document.createElement('div') // placeholder, replaced below
+    wrap._rowsEl = rowsEl
+
+    return wrap
+  }
+
+  _buildGroupRows(group) {
+    const wrap = document.createElement('div')
+    wrap.className = 'ik-list-group-rows'
+    if (group.collapsed) wrap.style.display = 'none'
+
+    if (group.rows?.length) {
+      const rowsWrapper = this._buildRows(group.rows)
+      wrap.appendChild(rowsWrapper)
+    }
+
+    return wrap
+  }
+
+  /* ── Private: empty state ───────────────────────────────────────────────── */
+
+  _buildEmptyState() {
+    const { emptyState } = this._props.options
+    const wrap = document.createElement('div')
+    wrap.className = 'ik-list-empty'
+
+    const title = document.createElement('div')
+    title.className = 'ik-list-empty__title'
+    title.textContent = emptyState.title || 'No Data'
+    wrap.appendChild(title)
+
+    const desc = document.createElement('div')
+    desc.className = 'ik-list-empty__description'
+    desc.textContent = emptyState.description || ''
+    wrap.appendChild(desc)
+
+    return wrap
+  }
+
+  /* ── Private: select banner ─────────────────────────────────────────────── */
+
+  _buildSelectBanner() {
+    const wrap = document.createElement('div')
+    wrap.className = 'ik-list-select-banner'
+    wrap.style.display = 'none'
+
+    const inner = document.createElement('div')
+    inner.className = 'ik-list-select-banner__inner'
+
+    const left = document.createElement('div')
+    left.className = 'ik-list-select-banner__left'
+
+    const info = document.createElement('div')
+    info.className = 'ik-list-select-banner__selection-info'
+
+    this._bannerText = document.createElement('div')
+    this._bannerText.textContent = ''
+    info.appendChild(this._bannerText)
+    left.appendChild(info)
+    inner.appendChild(left)
+
+    /* Buttons */
+    const buttons = document.createElement('div')
+    buttons.className = 'ik-list-select-banner__buttons'
+
+    const selectAllBtn = document.createElement('button')
+    selectAllBtn.className = 'ik-list-select-banner__select-all-btn ik-btn ik-btn--gray--ghost ik-btn--sm'
+    selectAllBtn.textContent = 'Select all'
+    selectAllBtn.addEventListener('click', () => this._toggleAllRows(true))
+
+    const clearBtn = document.createElement('button')
+    clearBtn.className = 'ik-btn ik-btn--gray--ghost ik-btn--sm ik-btn--icon'
+    clearBtn.innerHTML = '&times;'
+    clearBtn.addEventListener('click', () => this._toggleAllRows(false))
+
+    buttons.appendChild(selectAllBtn)
+    buttons.appendChild(clearBtn)
+    inner.appendChild(buttons)
+    wrap.appendChild(inner)
+
+    return wrap
+  }
+
+  _syncBanner() {
+    const size = this._selections.size
+    if (size > 0) {
+      this._bannerEl.style.display = ''
+      this._bannerText.textContent = this._props.options.selectionText(size)
+    } else {
+      this._bannerEl.style.display = 'none'
+    }
+  }
+
+  /* ── Private: checkbox ──────────────────────────────────────────────────── */
+
+  _buildCheckbox(checked, disabled, onChange) {
+    const label = document.createElement('label')
+    label.style.display = 'flex'
+    label.style.alignItems = 'center'
+    label.style.cursor = disabled ? 'not-allowed' : 'pointer'
+
+    const input = document.createElement('input')
+    input.type = 'checkbox'
+    input.checked = !!checked
+    input.disabled = !!disabled
+    input.addEventListener('click', onChange)
+
+    label.appendChild(input)
+    return label
+  }
+
+  /* ── Private: selection logic ───────────────────────────────────────────── */
+
+  _toggleAllRows(select) {
+    if (!select || this._allRowsSelected()) {
+      this._selections.clear()
+    } else {
+      const rows = this._grouped
+        ? this._props.rows.flatMap(g => g.rows || [])
+        : this._props.rows
+      rows.forEach((row) => {
+        if (!row.disabled) this._selections.add(row[this._props.rowKey])
+      })
+    }
+    this._syncSelectionUI()
+    this._syncBanner()
+    if (this._props.onSelectionChange) this._props.onSelectionChange(this._selections)
+  }
+
+  _handleCheckboxClick(event, row, allRows) {
+    if (row.disabled) return
+    const value = row[this._props.rowKey]
+
+    if (event.shiftKey && !this._selections.has(value)) {
+      const lastSelected = [...this._selections].pop()
+      const rows = this._grouped
+        ? this._props.rows.flatMap(g => g.rows || [])
+        : allRows
+      const lastIdx = rows.findIndex(r => r[this._props.rowKey] === lastSelected)
+      const curIdx  = rows.findIndex(r => r[this._props.rowKey] === value)
+      const start   = Math.min(lastIdx, curIdx)
+      const end     = Math.max(lastIdx, curIdx)
+      for (let i = start; i <= end; i++) {
+        if (!rows[i].disabled) this._selections.add(rows[i][this._props.rowKey])
+      }
+    } else {
+      if (!this._selections.delete(value)) {
+        this._selections.add(value)
+      }
+    }
+
+    this._syncSelectionUI()
+    this._syncBanner()
+    if (this._props.onSelectionChange) this._props.onSelectionChange(this._selections)
+  }
+
+  _syncSelectionUI() {
+    /* Update row classes */
+    const { rowKey, options } = this._props
+    const rows = this._rootEl.querySelectorAll('.ik-list-row')
+    rows.forEach((rowEl) => {
+      const key = rowEl.dataset.rowKey
+      if (!key) return
+      const isSelected = this._selections.has(key)
+      const isActive   = options.enableActive && this._activeRow === key
+      rowEl.classList.toggle('ik-list-row--selected', isSelected || isActive)
+    })
+
+    /* Update header checkbox */
+    if (this._headerCheckbox) {
+      const cb = this._headerCheckbox.querySelector('input')
+      if (cb) cb.checked = this._allRowsSelected()
+    }
+  }
+
+  _allRowsSelected() {
+    const rows = this._grouped
+      ? this._props.rows.flatMap(g => g.rows || [])
+      : this._props.rows
+    const total = rows.filter(r => !r.disabled).length
+    return total > 0 && this._selections.size === total
+  }
+  _getRoundedClass(row, allRows) {
+  const rowKey = this._props.rowKey
+  if (!this._selections.has(row[rowKey])) return 'ik-list-row--rounded'
+
+  const selections = [...this._selections]
+  const currentIndex = allRows.findIndex(r => r[rowKey] === row[rowKey])
+  const atTop = !selections.includes(allRows[currentIndex - 1]?.[rowKey])
+  const atBottom = !selections.includes(allRows[currentIndex + 1]?.[rowKey])
+
+  if (atTop && atBottom) return 'ik-list-row--rounded'
+  if (atTop) return 'ik-list-row--rounded-t'
+  if (atBottom) return 'ik-list-row--rounded-b'
+  return ''
 }
 
-/* ── Vue transition class map ────────────────────────────────────────────────
-   Replaces inline transition class strings in ListSelectBanner.vue.
+  _isGrouped() {
+    return this._props.rows.every(r => r.group && Array.isArray(r.rows))
+  }
 
-   Update your <transition> block to use these:
-     <transition
-       enter-active-class="ik-list-banner-enter-active"
-       leave-active-class="ik-list-banner-leave-active"
-       enter-from-class="ik-list-banner-enter-from"
-       leave-to-class="ik-list-banner-leave-to"
-       enter-to-class="ik-list-banner-enter-to"
-       leave-from-class="ik-list-banner-leave-from"
-     >
-   ─────────────────────────────────────────────────────────────────────────── */
+  /* ── Private: column resizer ────────────────────────────────────────────── */
 
-const LIST_TRANSITION_CLASSES = {
-  enterActiveClass: 'ik-list-banner-enter-active',
-  leaveActiveClass: 'ik-list-banner-leave-active',
-  enterFromClass:   'ik-list-banner-enter-from',
-  leaveToClass:     'ik-list-banner-leave-to',
-  enterToClass:     'ik-list-banner-enter-to',
-  leaveFromClass:   'ik-list-banner-leave-from',
-}
+  _attachResizer(resizerWrap, col, columnEl) {
+    resizerWrap.addEventListener('mousedown', (e) => {
+      const initialX     = e.clientX
+      const initialWidth = columnEl.offsetWidth
 
-/* ── Exports ─────────────────────────────────────────────────────────────────
-   ES module (for Vue SPA):
-     import { getGridTemplateColumns, IK_LIST_ALIGNMENT, LIST_TOKENS } from './List.js'
+      const onMouseMove = (e) => {
+        document.body.classList.add('select-none')
+        document.body.classList.add('cursor-col-resize')
+        const handle = resizerWrap.querySelector('.ik-list-header-item__resizer-handle')
+        if (handle) handle.style.backgroundColor = 'rgb(199 199 199)'
+        let newWidth = initialWidth + (e.clientX - initialX)
+        col.width = `${Math.max(50, newWidth)}px`
+      }
 
-   Global (loaded via hooks.py):
-     window.IK.list.getGridTemplateColumns(columns, true)
-     window.IK.list.alignment.header['left']
-   ─────────────────────────────────────────────────────────────────────────── */
+      const onMouseUp = () => {
+        document.body.classList.remove('select-none')
+        document.body.classList.remove('cursor-col-resize')
+        const handle = resizerWrap.querySelector('.ik-list-header-item__resizer-handle')
+        if (handle) handle.style.backgroundColor = ''
+        window.removeEventListener('mousemove', onMouseMove)
+        window.removeEventListener('mouseup', onMouseUp)
+      }
 
-if (typeof window !== 'undefined') {
-  window.IK = window.IK || {}
-  window.IK.list = {
-    tokens: LIST_TOKENS,
-    alignment: IK_LIST_ALIGNMENT,
-    getGridTemplateColumns,
-    getRowClasses,
-    getRowRoundedClass,
-    getRowDividerClass,
-    transitionClasses: LIST_TRANSITION_CLASSES,
+      window.addEventListener('mousemove', onMouseMove)
+      window.addEventListener('mouseup', onMouseUp)
+    })
   }
 }
 
-export {
-  IK_LIST_ALIGNMENT,
-  LIST_TOKENS,
-  LIST_TRANSITION_CLASSES,
-  getGridTemplateColumns,
-  getRowClasses,
-  getRowRoundedClass,
-  getRowDividerClass,
+/* ─── Exports ─────────────────────────────────────────────────────────────── */
+export { IKListView, getGridTemplateColumns, alignmentMap }
+export default IKListView
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = IKListView
+  module.exports.IKListView = IKListView
+  module.exports.getGridTemplateColumns = getGridTemplateColumns
+  module.exports.alignmentMap = alignmentMap
 }

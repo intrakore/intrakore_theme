@@ -387,9 +387,10 @@
   max-height: 200px;
   overflow: hidden;
 }
-
 /* =============================================================================
    FRAPPE CRM SIDEBAR OVERRIDES
+   Targets Frappe's actual rendered DOM class names.
+   Uses !important to override Frappe's desk.bundle.css (741KB).
    ============================================================================= */
 
 .body-sidebar-container,
@@ -459,6 +460,12 @@
   font-size: var(--text-base-size) !important;
 }
 
+.standard-sidebar-item .sidebar-item-suffix,
+.standard-sidebar-item .sidebar-item-suffix.keyboard-shortcut {
+  color: var(--ink-blueprint-1) !important;
+  opacity: 0.6;
+}
+
 .standard-sidebar-item:hover {
   background-color: var(--surface-blueprint-6) !important;
 }
@@ -490,6 +497,10 @@
 
 .sidebar-child-item.nested-container {
   background-color: transparent !important;
+}
+
+.sidebar-child-item .standard-sidebar-item {
+  border-radius: var(--radius) !important;
 }
 
 .body-sidebar-bottom {

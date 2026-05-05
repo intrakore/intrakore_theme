@@ -11,6 +11,7 @@ app_include_css = [
     "/assets/intrakore_theme/css/custom.css",
     "/assets/intrakore_theme/css/fonts.css",
     "/assets/intrakore_theme/css/typography.css",
+    "/assets/intrakore_theme/css/frappe-overrides.css",
     "/assets/intrakore_theme/css/Sidebar.css",
     "/assets/intrakore_theme/css/List.css",
     "/assets/intrakore_theme/css/IconPicker.css",
@@ -25,11 +26,12 @@ app_include_css = [
     "/assets/intrakore_theme/css/Tooltip.css",
     "/assets/intrakore_theme/css/Calendar.css",
     "/assets/intrakore_theme/css/Rating.css",
+    "/assets/intrakore_theme/css/TextInput.css",
 ]
 
 # Optional: For website/web portal (if needed)
-# web_include_js = "intrakore_theme.bundle.js"
-# web_include_css = "intrakore_theme.bundle.css"
+web_include_js = "intrakore_theme.bundle.js"
+web_include_css = "intrakore_theme.bundle.css"
 # Apps
 # ------------------
 
@@ -274,4 +276,3 @@ app_include_css = [
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
-

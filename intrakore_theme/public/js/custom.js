@@ -670,3 +670,28 @@ if (typeof window !== 'undefined') {
     setVar: ikSetVar,
   }
 }
+// Fix list-count color — inline style overrides CSS
+
+function fixListColors() {
+  document.querySelectorAll('.list-row-head .level-item').forEach(el => {
+    el.style.setProperty('color', '#000FCC', 'important')
+  })
+  document.querySelectorAll('.list-row .level-item').forEach(el => {
+    el.style.setProperty('color', '#4B4B6C', 'important')
+  })
+  document.querySelectorAll('.list-row .list-subject .level-item.bold a').forEach(el => {
+    el.style.setProperty('color', '#212130', 'important')
+    el.style.setProperty('font-weight', '500', 'important')
+  })
+  document.querySelectorAll('.list-count span').forEach(el => {
+    el.style.cssText = 'color: #000FCC !important; white-space: nowrap;'
+  })
+  document.querySelectorAll('.list-count').forEach(el => {
+    el.style.setProperty('color', '#000FCC', 'important')
+  })
+}
+
+frappe.router.on('change', () => setTimeout(fixListColors, 500))
+$(document).on('page-change', () => setTimeout(fixListColors, 500))
+setTimeout(fixListColors, 1000)
+setTimeout(fixListColors, 2000)
