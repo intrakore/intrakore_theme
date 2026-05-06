@@ -1,0 +1,21 @@
+@import "/assets/intrakore_theme/css/fonts.css";
+@import "/assets/intrakore_theme/css/typography.css";
+
+@import "/assets/intrakore_theme/css/Button.css";
+@import "/assets/intrakore_theme/css/Alert.css";
+@import "/assets/intrakore_theme/css/Badge.css";
+@import "/assets/intrakore_theme/css/Breadcrumbs.css";
+@import "/assets/intrakore_theme/css/Calendar.css";
+@import "/assets/intrakore_theme/css/Checkbox.css";
+@import "/assets/intrakore_theme/css/Divider.css";
+@import "/assets/intrakore_theme/css/IconPicker.css";
+@import "/assets/intrakore_theme/css/List.css";
+@import "/assets/intrakore_theme/css/Rating.css";
+@import "/assets/intrakore_theme/css/Sidebar.css";
+@import "/assets/intrakore_theme/css/TextInput.css";
+@import "/assets/intrakore_theme/css/Toast.css";
+@import "/assets/intrakore_theme/css/Tooltip.css";
+@import "/assets/intrakore_theme/css/Tree.css";
+
+@import "/assets/intrakore_theme/css/frappe-overrides.css";
+@import "/assets/intrakore_theme/css/custom.css";
